@@ -97,7 +97,8 @@
   "parse list of data from TAGS file. Generate helm-complete-tag-table structure"
   (let ((file-line nil)
         (file-path nil)
-        (file-name nil))
+        (file-name nil)
+        (file-type bil))
     (while file-data      
       (setq file-line (car file-data))
       ;;(message "char %s" (string-to-char item))
@@ -106,15 +107,22 @@
           (progn
             ;; get full path
             (setq file-data (cdr file-data))            
-            (setq file-path ( replace-regexp-in-string "," "" (when (string-match "\\(.*\\)," (car file-data))
-                                                                (match-string 0 (car file-data)))))
+            (setq file-path (replace-regexp-in-string "," "" (when (string-match "\\(.*\\)," (car file-data))
+                                                               (match-string 0 (car file-data)))))
             ;; get file name
             (setq file-data (cdr file-data))
-            (setq file-name ( replace-regexp-in-string "[]" "" (when (string-match "\\(.*\\)" (car file-data))
-                                                                     (match-string 0 (car file-data)))))
-            (setq file-data (cdr file-data))))
+            (setq file-name (replace-regexp-in-string "[]" "" (when (string-match "\\(.*\\)" (car file-data))
+                                                                    (match-string 0 (car file-data)))))            
+            ;; get file type
+            (if (string-match "\\(\\.hpp$\\)\\|\\(\\.hh$\\)\\|\\(\\.hxx$\\)\\|\\(\\.h$\\)" file-name)
+              (setq file-type "h")
+              (setq file-type "cpp"))
+
+            (setq file-data (cdr file-data))
+            (while file-data
+              ;; parse file structure
+              ))))
       
-      (setq file-data (cdr file-data)) )
     ))
 
 
