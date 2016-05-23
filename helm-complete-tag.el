@@ -306,8 +306,9 @@
   (when (helm-complete-tag-create-index)
     (print-element-of-list helm-complete-tag-index)))
 
+;; test
 (test-f)
-
+;; test async
 (funcall'run-with-timer 0.01 nil
                               #'test-f)
 
